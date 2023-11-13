@@ -1,8 +1,8 @@
 package com.rsm.rsm_backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.sql.Date;
@@ -12,6 +12,10 @@ import java.sql.Date;
 @Table(name = "request")
 @Setter
 @Getter
+@ToString
+@Jacksonized
+@AllArgsConstructor
+@NoArgsConstructor
 public class Request {
 
     @Id

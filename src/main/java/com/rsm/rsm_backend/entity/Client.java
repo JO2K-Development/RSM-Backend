@@ -1,10 +1,7 @@
 package com.rsm.rsm_backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "client")
 @Setter
 @Getter
+@ToString
 @Jacksonized
 @AllArgsConstructor
 @NoArgsConstructor

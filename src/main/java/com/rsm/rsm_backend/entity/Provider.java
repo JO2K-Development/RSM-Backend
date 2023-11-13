@@ -1,8 +1,8 @@
 package com.rsm.rsm_backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
@@ -11,6 +11,10 @@ import java.util.List;
 @Table(name = "provider")
 @Setter
 @Getter
+@ToString
+@Jacksonized
+@AllArgsConstructor
+@NoArgsConstructor
 public class Provider {
 
     @Id
@@ -18,6 +22,10 @@ public class Provider {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "provider_id")
+    private List<Request> requestList;
 
     @Column(name = "first_name")
     private String firstName;
@@ -40,7 +48,5 @@ public class Provider {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "provider_id")
-    private List<Request> requestList;
+
 }
