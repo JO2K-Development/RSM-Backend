@@ -1,20 +1,26 @@
 package com.rsm.rsm_backend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.jackson.Jacksonized;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "client")
 @Setter
 @Getter
+@Jacksonized
+@AllArgsConstructor
+@NoArgsConstructor
 public class Client {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
     @Column(name = "first_name")

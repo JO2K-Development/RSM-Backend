@@ -6,6 +6,7 @@ import com.rsm.rsm_backend.service.ClientService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -33,10 +34,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Optional<Client> updateClient(String id, Client updatedClient) {
-        Optional<Client> client = clientRepository.findById(id);
-        client.ifPresent(clientRepository::save);
-        return client;
+    public Client updateClient(String id, Client updatedClient) {
+        updatedClient.setId(id);
+
+        return clientRepository.save(updatedClient);
 
     }
 
