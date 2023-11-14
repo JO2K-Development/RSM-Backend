@@ -6,7 +6,6 @@ import com.rsm.rsm_backend.service.ClientService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -38,7 +37,6 @@ public class ClientServiceImpl implements ClientService {
         updatedClient.setId(id);
 
         return clientRepository.save(updatedClient);
-
     }
 
     @Override
