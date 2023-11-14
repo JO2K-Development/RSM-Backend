@@ -9,8 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "provider")
-@Setter
-@Getter
+@Data
 @ToString
 @Jacksonized
 @AllArgsConstructor

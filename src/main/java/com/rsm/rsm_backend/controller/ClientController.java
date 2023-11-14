@@ -2,7 +2,9 @@ package com.rsm.rsm_backend.controller;
 
 import com.rsm.rsm_backend.entity.Client;
 import com.rsm.rsm_backend.service.ClientService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,31 +22,32 @@ public class ClientController {
     }
 
     @GetMapping(value = "/{id}")
-    Client getClientById(@PathVariable String id){
+    ResponseEntity<Client> getClientById(@PathVariable String id){
         Optional<Client> client = clientService.getClientById(id);
         if(client.isEmpty())
             throw new NoSuchElementException();
-        return client.get();
+
+        return new ResponseEntity<>(client.get(), HttpStatus.OK);
     }
     @GetMapping()
-    List<Client> getAllClients(){
-        return clientService.getAllClients();
+    ResponseEntity<List<Client>> getAllClients(){
+        return new ResponseEntity<>(clientService.getAllClients(), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    Client addClient(@RequestBody Client client){
-        return clientService.addClient(client);
+    ResponseEntity<Client> addClient(@RequestBody Client client){
+        return new ResponseEntity<>(clientService.addClient(client), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    Client updateClient(@PathVariable String id, @RequestBody Client updatedClient){
+    ResponseEntity<Client> updateClient(@PathVariable String id, @RequestBody Client updatedClient){
         Optional<Client> existingClient = clientService.getClientById(id);
         if(existingClient.isEmpty())
             throw new NoSuchElementException();
 
         clientService.updateClient(id, updatedClient);
 
-        return updatedClient;
+        return new ResponseEntity<>(updatedClient, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

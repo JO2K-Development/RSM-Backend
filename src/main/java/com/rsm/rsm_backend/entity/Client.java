@@ -7,8 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "client")
-@Setter
-@Getter
+@Data
 @ToString
 @Jacksonized
 @AllArgsConstructor

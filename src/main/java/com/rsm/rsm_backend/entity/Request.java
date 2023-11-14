@@ -10,8 +10,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "request")
-@Setter
-@Getter
+@Data
 @ToString
 @Jacksonized
 @AllArgsConstructor
