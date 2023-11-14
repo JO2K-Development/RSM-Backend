@@ -26,18 +26,17 @@ public class ClientController {
             throw new NoSuchElementException();
         return client.get();
     }
-
-    @GetMapping(value = "/all")
+    @GetMapping()
     List<Client> getAllClients(){
         return clientService.getAllClients();
     }
 
-    @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     Client addClient(@RequestBody Client client){
         return clientService.addClient(client);
     }
 
-    @PutMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     Client updateClient(@PathVariable String id, @RequestBody Client updatedClient){
         Optional<Client> existingClient = clientService.getClientById(id);
         if(existingClient.isEmpty())
