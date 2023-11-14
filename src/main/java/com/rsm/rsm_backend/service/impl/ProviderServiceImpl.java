@@ -29,6 +29,11 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
+    public Optional<Provider> getProviderByEmail(String email) {
+        return providerRepository.findByEmail(email);
+    }
+
+    @Override
     public Provider addProvider(Provider provider) {
         return providerRepository.save(provider);
     }

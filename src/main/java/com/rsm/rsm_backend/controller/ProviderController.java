@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/provider")
+@RequestMapping("/api/v1/provider")
 public class ProviderController {
     private final ProviderService providerService;
 
