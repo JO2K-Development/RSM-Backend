@@ -1,8 +1,8 @@
 package com.rsm.rsm_backend.service.impl;
 
-import com.rsm.rsm_backend.authenticationDTO.AuthenticationRequest;
-import com.rsm.rsm_backend.authenticationDTO.AuthenticationResponse;
-import com.rsm.rsm_backend.authenticationDTO.RegisterRequest;
+import com.rsm.rsm_backend.authenticationDTO.AuthenticationRequestDTO;
+import com.rsm.rsm_backend.authenticationDTO.AuthenticationResponseDTO;
+import com.rsm.rsm_backend.authenticationDTO.RegisterRequestDTO;
 import com.rsm.rsm_backend.entity.Provider;
 import com.rsm.rsm_backend.entity.Role;
 import com.rsm.rsm_backend.service.AuthenticationService;
@@ -23,7 +23,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtServiceImpl;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponseDTO register(RegisterRequestDTO request) {
         var user = Provider.builder()
                 .firstName(request.getFirstname())
                 .lastName(request.getFirstname())
@@ -34,13 +34,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         providerService.addProvider(user);
         var jwtToken = jwtServiceImpl.generateToken(user);
 
-        return AuthenticationResponse
+        return AuthenticationResponseDTO
                 .builder()
                 .token(jwtToken)
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponseDTO authenticate(AuthenticationRequestDTO request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -53,7 +53,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         var jwtToken = jwtServiceImpl.generateToken(user);
 
-        return AuthenticationResponse
+        return AuthenticationResponseDTO
                 .builder()
                 .token(jwtToken)
                 .build();

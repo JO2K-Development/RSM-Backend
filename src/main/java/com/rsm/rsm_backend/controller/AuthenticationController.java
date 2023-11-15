@@ -1,8 +1,8 @@
 package com.rsm.rsm_backend.controller;
 
-import com.rsm.rsm_backend.authenticationDTO.AuthenticationRequest;
-import com.rsm.rsm_backend.authenticationDTO.AuthenticationResponse;
-import com.rsm.rsm_backend.authenticationDTO.RegisterRequest;
+import com.rsm.rsm_backend.authenticationDTO.AuthenticationRequestDTO;
+import com.rsm.rsm_backend.authenticationDTO.AuthenticationResponseDTO;
+import com.rsm.rsm_backend.authenticationDTO.RegisterRequestDTO;
 import com.rsm.rsm_backend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +19,15 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
+    public ResponseEntity<AuthenticationResponseDTO> register(
+            @RequestBody RegisterRequestDTO request
     ){
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody AuthenticationRequest request
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponseDTO> register(
+            @RequestBody AuthenticationRequestDTO request
     ){
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }

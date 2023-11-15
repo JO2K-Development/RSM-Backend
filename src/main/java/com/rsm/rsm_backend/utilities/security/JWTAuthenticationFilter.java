@@ -1,7 +1,6 @@
 package com.rsm.rsm_backend.utilities.security;
 
 import com.rsm.rsm_backend.service.JwtService;
-import com.rsm.rsm_backend.service.impl.JwtServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

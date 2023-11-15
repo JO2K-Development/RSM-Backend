@@ -1,13 +1,13 @@
 package com.rsm.rsm_backend.service;
 
-import com.rsm.rsm_backend.authenticationDTO.AuthenticationRequest;
-import com.rsm.rsm_backend.authenticationDTO.AuthenticationResponse;
-import com.rsm.rsm_backend.authenticationDTO.RegisterRequest;
+import com.rsm.rsm_backend.authenticationDTO.AuthenticationRequestDTO;
+import com.rsm.rsm_backend.authenticationDTO.AuthenticationResponseDTO;
+import com.rsm.rsm_backend.authenticationDTO.RegisterRequestDTO;
 
 public interface AuthenticationService {
 
-    AuthenticationResponse register(RegisterRequest request);
-    AuthenticationResponse authenticate(AuthenticationRequest request);
+    AuthenticationResponseDTO register(RegisterRequestDTO request);
+    AuthenticationResponseDTO authenticate(AuthenticationRequestDTO request);
 
 
 }
