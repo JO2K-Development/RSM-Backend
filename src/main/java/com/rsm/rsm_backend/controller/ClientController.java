@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/api/v1/client")
 public class ClientController {
 
     private final ClientService clientService;

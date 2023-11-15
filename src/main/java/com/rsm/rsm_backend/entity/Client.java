@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "client")
@@ -31,4 +32,5 @@ public class Client {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
 }
