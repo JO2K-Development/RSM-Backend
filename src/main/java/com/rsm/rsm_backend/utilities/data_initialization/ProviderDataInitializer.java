@@ -12,18 +12,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProviderDataInitializer {
-    private final ProviderService providerService;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
     private final AuthenticationService authenticationService;
 
     @Autowired
-    public ProviderDataInitializer(ProviderService providerService, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, AuthenticationService authenticationService) {
-        this.providerService = providerService;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
-        this.authenticationManager = authenticationManager;
+    public ProviderDataInitializer(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
