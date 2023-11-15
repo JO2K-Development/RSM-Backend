@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/request")
+@CrossOrigin(origins = "http://localhost:3000")
 public class RequestController {
 
     private final RequestService requestService;
