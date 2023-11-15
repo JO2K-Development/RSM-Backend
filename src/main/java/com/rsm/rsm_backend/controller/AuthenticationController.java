@@ -5,6 +5,7 @@ import com.rsm.rsm_backend.authenticationDTO.AuthenticationResponseDTO;
 import com.rsm.rsm_backend.authenticationDTO.RegisterRequestDTO;
 import com.rsm.rsm_backend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,14 +19,14 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/register")
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthenticationResponseDTO> register(
             @RequestBody RegisterRequestDTO request
     ){
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthenticationResponseDTO> login(
             @RequestBody AuthenticationRequestDTO request
     ){
