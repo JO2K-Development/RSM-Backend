@@ -11,10 +11,9 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
-@ToString
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "provider")
 public class Provider implements UserDetails {
@@ -44,7 +43,7 @@ public class Provider implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "e_mail")
+    @Column(name = "e_mail", unique = true)
     private String email;
 
     @Column(name = "phone_number")

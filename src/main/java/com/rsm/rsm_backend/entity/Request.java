@@ -8,13 +8,12 @@ import org.hibernate.annotations.GenericGenerator;
 import java.sql.Date;
 
 
-@Entity
-@Table(name = "request")
 @Data
-@ToString
-@Jacksonized
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "request")
 public class Request {
 
     @Id

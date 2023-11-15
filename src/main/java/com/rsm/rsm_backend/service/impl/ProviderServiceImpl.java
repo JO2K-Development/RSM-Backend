@@ -35,6 +35,8 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     public Provider addProvider(Provider provider) {
+        if (providerRepository.findByEmail(provider.getEmail()).isPresent())
+            throw new RuntimeException("Username already exists");
         return providerRepository.save(provider);
     }
 

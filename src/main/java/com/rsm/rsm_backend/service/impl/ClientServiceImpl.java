@@ -28,6 +28,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client addClient(Client client) {
+        if (clientRepository.findByEmail(client.getEmail()).isPresent())
+            throw new RuntimeException("Username already exists");
+
         return clientRepository.save(client);
     }
 
