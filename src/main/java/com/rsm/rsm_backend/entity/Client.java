@@ -2,9 +2,7 @@ package com.rsm.rsm_backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
 @AllArgsConstructor

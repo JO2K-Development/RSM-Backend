@@ -2,7 +2,6 @@ package com.rsm.rsm_backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.sql.Date;
@@ -31,6 +30,10 @@ public class Request {
 
     @Column(name = "date")
     private Date date;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "provider_id")
+    private Provider provider;
 
 
 

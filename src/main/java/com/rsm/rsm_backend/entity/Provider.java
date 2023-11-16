@@ -24,9 +24,9 @@ public class Provider implements UserDetails {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "provider_id")
-    private List<Request> requestList;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "provider_id")
+//    private List<Request> requestList;
 
     @Column(name = "first_name")
     private String firstName;
