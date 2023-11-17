@@ -28,6 +28,12 @@ public class Request {
     @Column(name = "message")
     private String message;
 
+    @Column(name = "car_make")
+    private String carMake;
+
+    @Column(name = "car_model")
+    private String carModel;
+
     @Column(name = "date")
     private Date date;
 
