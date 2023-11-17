@@ -35,6 +35,10 @@ public class Request {
     @JoinColumn(name = "provider_id")
     private Provider provider;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "request_status")
+    private RequestStatus requestStatus;
+
 
 
 }
