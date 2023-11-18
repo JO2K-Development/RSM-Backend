@@ -19,11 +19,9 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 public class ProviderController {
     private final ProviderService providerService;
-    private final RequestService requestService;
 
-    public ProviderController(ProviderService providerService, RequestService requestService) {
+    public ProviderController(ProviderService providerService) {
         this.providerService = providerService;
-        this.requestService = requestService;
     }
 
     @GetMapping(value = "/{id}")
@@ -38,6 +36,13 @@ public class ProviderController {
     @GetMapping()
     ResponseEntity<List<Provider>> getAllProviders(){
         return new ResponseEntity<>(providerService.getAllProviders(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/assigned/{id}")
+    ResponseEntity<List<Request>> getAllRequestsOfProvider(@PathVariable String id){
+        if(providerService.getProviderById(id).isEmpty())
+            return ResponseEntity.badRequest().build();
+        return new ResponseEntity<>(providerService.getRequestsByProviderId(id), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -64,25 +69,5 @@ public class ProviderController {
         return new ResponseEntity<>(provider.get(), HttpStatus.OK);
     }
 
-    @PutMapping(value="/assign/{provider_id}")
-    ResponseEntity<Provider> assignRequestToProvider(@PathVariable String provider_id, @RequestParam String request_id){
 
-        Optional<Provider> provider = providerService.getProviderById(provider_id);
-        Optional<Request> request = requestService.getRequestById(request_id);
-        if(request.isEmpty() || provider.isEmpty())
-            return ResponseEntity.badRequest().build();
-
-        request.get().setProvider(provider.get());
-
-        requestService.updateRequest(request_id, request.get());
-        return ResponseEntity.ok().build();
-
-    }
-
-    @GetMapping(value = "/assigned/{id}")
-    ResponseEntity<List<Request>> getAllRequestsOfProvider(@PathVariable String id){
-        if(providerService.getProviderById(id).isEmpty())
-            return ResponseEntity.badRequest().build();
-        return new ResponseEntity<>(providerService.getRequestsByProviderId(id), HttpStatus.OK);
-    }
 }
