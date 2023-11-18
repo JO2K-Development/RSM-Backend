@@ -23,28 +23,27 @@ public class ClientController {
     }
 
     @GetMapping(value = "/{id}")
-    ResponseEntity<Client> getClientById(@PathVariable String id){
+    ResponseEntity<Client> getClientById(@PathVariable String id) {
         Optional<Client> client = clientService.getClientById(id);
-        if(client.isEmpty())
-            throw new NoSuchElementException();
+        if (client.isEmpty()) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(client.get(), HttpStatus.OK);
     }
+
     @GetMapping()
-    ResponseEntity<List<Client>> getAllClients(){
+    ResponseEntity<List<Client>> getAllClients() {
         return new ResponseEntity<>(clientService.getAllClients(), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Client> addClient(@RequestBody Client client){
+    ResponseEntity<Client> addClient(@RequestBody Client client) {
         return new ResponseEntity<>(clientService.addClient(client), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Client> updateClient(@PathVariable String id, @RequestBody Client updatedClient){
+    ResponseEntity<Client> updateClient(@PathVariable String id, @RequestBody Client updatedClient) {
         Optional<Client> existingClient = clientService.getClientById(id);
-        if(existingClient.isEmpty())
-            throw new NoSuchElementException();
+        if (existingClient.isEmpty()) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         clientService.updateClient(id, updatedClient);
 
@@ -52,8 +51,14 @@ public class ClientController {
     }
 
     @DeleteMapping(value = "/{id}")
-    void deleteClientById(@PathVariable String id){
+    ResponseEntity<Client> deleteClientById(@PathVariable String id) {
+        Optional<Client> client = clientService.getClientById(id);
+
+        if (client.isEmpty()) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
         clientService.deleteClient(id);
+
+        return new ResponseEntity<>(client.get(), HttpStatus.OK);
     }
 
 }

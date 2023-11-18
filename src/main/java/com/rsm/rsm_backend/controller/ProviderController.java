@@ -25,45 +25,46 @@ public class ProviderController {
     }
 
     @GetMapping(value = "/{id}")
-    ResponseEntity<Provider> getProviderById(@PathVariable String id){
+    ResponseEntity<Provider> getProviderById(@PathVariable String id) {
         Optional<Provider> provider = providerService.getProviderById(id);
-        if(provider.isEmpty())
-            return ResponseEntity.badRequest().build();
+        if (provider.isEmpty())
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(provider.get(), HttpStatus.OK );
+        return new ResponseEntity<>(provider.get(), HttpStatus.OK);
     }
 
     @GetMapping()
-    ResponseEntity<List<Provider>> getAllProviders(){
+    ResponseEntity<List<Provider>> getAllProviders() {
         return new ResponseEntity<>(providerService.getAllProviders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/assigned/{id}")
-    ResponseEntity<List<Request>> getAllRequestsOfProvider(@PathVariable String id){
-        if(providerService.getProviderById(id).isEmpty())
-            return ResponseEntity.badRequest().build();
+    ResponseEntity<List<Request>> getAllRequestsOfProvider(@PathVariable String id) {
+        if (providerService.getProviderById(id).isEmpty())
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
         return new ResponseEntity<>(providerService.getRequestsByProviderId(id), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Provider> addProvider(@RequestBody Provider provider){
+    ResponseEntity<Provider> addProvider(@RequestBody Provider provider) {
         return new ResponseEntity<>(providerService.addProvider(provider), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Provider> updateProvider(@PathVariable String id, @RequestBody Provider updatedProvider){
+    ResponseEntity<Provider> updateProvider(@PathVariable String id, @RequestBody Provider updatedProvider) {
         Optional<Provider> existingProvider = providerService.getProviderById(id);
-        if(existingProvider.isEmpty())
-            throw new NoSuchElementException();
+        if (existingProvider.isEmpty())
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(providerService.updateProvider(id, updatedProvider), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    ResponseEntity<Provider> deleteProviderById(@PathVariable String id){
+    ResponseEntity<Provider> deleteProviderById(@PathVariable String id) {
         Optional<Provider> provider = providerService.getProviderById(id);
-        if(provider.isEmpty())
-            return ResponseEntity.badRequest().build();
+        if (provider.isEmpty())
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         providerService.deleteProvider(id);
         return new ResponseEntity<>(provider.get(), HttpStatus.OK);
