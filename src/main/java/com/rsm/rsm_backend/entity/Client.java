@@ -2,11 +2,13 @@ package com.rsm.rsm_backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.GenericGenerator;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Jacksonized
 @Builder
 @Entity
 @Table(name = "client")

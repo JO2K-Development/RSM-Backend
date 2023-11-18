@@ -78,4 +78,11 @@ public class ProviderController {
         return ResponseEntity.ok().build();
 
     }
+
+    @GetMapping(value = "/assigned/{id}")
+    ResponseEntity<List<Request>> getAllRequestsOfProvider(@PathVariable String id){
+        if(providerService.getProviderById(id).isEmpty())
+            return ResponseEntity.badRequest().build();
+        return new ResponseEntity<>(providerService.getRequestsByProviderId(id), HttpStatus.OK);
+    }
 }

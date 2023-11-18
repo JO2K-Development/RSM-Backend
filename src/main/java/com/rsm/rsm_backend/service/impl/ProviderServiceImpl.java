@@ -1,7 +1,9 @@
 package com.rsm.rsm_backend.service.impl;
 
 import com.rsm.rsm_backend.entity.Provider;
+import com.rsm.rsm_backend.entity.Request;
 import com.rsm.rsm_backend.repository.ProviderRepository;
+import com.rsm.rsm_backend.repository.RequestRepository;
 import com.rsm.rsm_backend.service.ProviderService;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +14,27 @@ import java.util.Optional;
 public class ProviderServiceImpl implements ProviderService {
 
     private final ProviderRepository providerRepository;
+    private final RequestRepository requestRepository;
 
-    public ProviderServiceImpl(ProviderRepository providerRepository) {
+    public ProviderServiceImpl(ProviderRepository providerRepository, RequestRepository requestRepository) {
         this.providerRepository = providerRepository;
+        this.requestRepository = requestRepository;
     }
 
 
     @Override
     public List<Provider> getAllProviders() {
         return providerRepository.findAll();
+    }
+
+    @Override
+    public List<Request> getRequestsByProviderId(String id) {
+        Optional<Provider> provider = providerRepository.findById(id);
+
+        if(provider.isEmpty())
+            return null;
+
+        return requestRepository.findByProvider(providerRepository.findById(id).get());
     }
 
     @Override
