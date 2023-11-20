@@ -36,8 +36,11 @@ public class Request {
     @Column(name = "car_model")
     private String carModel;
 
-    @Column(name = "date")
-    private Date date;
+    @Column(name = "creation_date")
+    private Date creationDate;
+
+    @Column(name = "is_verified")
+    private Boolean isVerified;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "provider_id")

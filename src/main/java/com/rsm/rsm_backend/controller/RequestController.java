@@ -3,16 +3,19 @@ package com.rsm.rsm_backend.controller;
 import com.rsm.rsm_backend.entity.Provider;
 import com.rsm.rsm_backend.entity.Request;
 import com.rsm.rsm_backend.entity.RequestStatus;
+import com.rsm.rsm_backend.service.EmailService;
 import com.rsm.rsm_backend.service.ProviderService;
 import com.rsm.rsm_backend.service.RequestService;
+import com.rsm.rsm_backend.utilities.email.EmailValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import static com.rsm.rsm_backend.service.EmailService.buildEmail;
 
 @RestController
 @RequestMapping("/api/v1/request")
@@ -22,10 +25,14 @@ public class RequestController {
     private final RequestService requestService;
     private final ProviderService providerService;
 
+    private final EmailService emailService;
 
-    public RequestController(RequestService requestService, ProviderService providerService) {
+
+    public RequestController(RequestService requestService, ProviderService providerService, EmailService emailService, EmailValidator emailValidator) {
         this.requestService = requestService;
         this.providerService = providerService;
+        this.emailService = emailService;
+        this.emailValidator = emailValidator;
     }
 
     @GetMapping(value = "/{id}")
@@ -78,9 +85,23 @@ public class RequestController {
         return new ResponseEntity<>(requestService.updateRequest(id, request.get()), HttpStatus.OK);
     }
 
+    private final EmailValidator emailValidator;
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     Request addRequest(@RequestBody Request request) {
         request.setRequestStatus(RequestStatus.WAITING_FOR_AN_EMAIL_VERIFICATION);
+        boolean isValidEmail = emailValidator.test(request.getCreator().getEmail());
+        if (isValidEmail) {
+            String tokenForNewUser = "test";
+
+            //Since, we are running the spring boot application in localhost, we are hardcoding the
+            //url of the server. We are creating a POST request with token param
+            String link = "http://localhost:8080/api/v1/registration/confirm?token=" + tokenForNewUser;
+            emailService.sendEmail(request.getCreator().getEmail(), buildEmail(request.getCreator().getFirstName(), link));
+            //return tokenForNewUser;
+//        } else {
+//            throw new IllegalStateException(String.format("Email %s, not valid", request.getEmail()));
+//        }
+        }
         return requestService.addRequest(request);
     }
 
