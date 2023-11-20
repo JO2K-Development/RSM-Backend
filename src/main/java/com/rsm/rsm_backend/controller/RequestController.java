@@ -3,17 +3,22 @@ package com.rsm.rsm_backend.controller;
 import com.rsm.rsm_backend.entity.Provider;
 import com.rsm.rsm_backend.entity.Request;
 import com.rsm.rsm_backend.entity.RequestStatus;
+import com.rsm.rsm_backend.entity.VerificationToken;
 import com.rsm.rsm_backend.service.EmailService;
 import com.rsm.rsm_backend.service.ProviderService;
 import com.rsm.rsm_backend.service.RequestService;
+import com.rsm.rsm_backend.service.VerificationTokenService;
 import com.rsm.rsm_backend.utilities.email.EmailValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import static com.rsm.rsm_backend.service.EmailService.buildEmail;
 
@@ -24,14 +29,15 @@ public class RequestController {
 
     private final RequestService requestService;
     private final ProviderService providerService;
-
     private final EmailService emailService;
+    private final VerificationTokenService verificationTokenService;
 
 
-    public RequestController(RequestService requestService, ProviderService providerService, EmailService emailService, EmailValidator emailValidator) {
+    public RequestController(RequestService requestService, ProviderService providerService, EmailService emailService, VerificationTokenService verificationTokenService, EmailValidator emailValidator) {
         this.requestService = requestService;
         this.providerService = providerService;
         this.emailService = emailService;
+        this.verificationTokenService = verificationTokenService;
         this.emailValidator = emailValidator;
     }
 
@@ -48,6 +54,17 @@ public class RequestController {
     @GetMapping()
     ResponseEntity<List<Request>> getAllRequests() {
         return new ResponseEntity<>(requestService.getAllRequests(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/confirm")
+    ResponseEntity<Request> confirm(@RequestParam("token") String token) {
+        Optional<VerificationToken> verificationToken = verificationTokenService.getToken(token);
+        if(verificationToken.isPresent()){
+            String id = verificationToken.get().getClient().getId();
+            //requestService.
+            System.out.println("VERIFY");
+        }
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -91,11 +108,20 @@ public class RequestController {
         request.setRequestStatus(RequestStatus.WAITING_FOR_AN_EMAIL_VERIFICATION);
         boolean isValidEmail = emailValidator.test(request.getCreator().getEmail());
         if (isValidEmail) {
-            String tokenForNewUser = "test";
+            Random random = new Random();
+            VerificationToken verificationToken = VerificationToken.
+                    builder().
+                    token(String.valueOf(random.nextLong())+ random.nextLong()).
+                    client(request.getCreator()).
+                    timestamp(Timestamp.valueOf(LocalDateTime.now())).
+                    expireAt(LocalDateTime.now()).
+                    build();
+
+            verificationTokenService.addVerificationToken(verificationToken);
 
             //Since, we are running the spring boot application in localhost, we are hardcoding the
             //url of the server. We are creating a POST request with token param
-            String link = "http://localhost:8080/api/v1/registration/confirm?token=" + tokenForNewUser;
+            String link = "http://localhost:8080/api/v1/request/confirm?token=" + verificationToken.getToken();
             emailService.sendEmail(request.getCreator().getEmail(), buildEmail(request.getCreator().getFirstName(), link));
             //return tokenForNewUser;
 //        } else {

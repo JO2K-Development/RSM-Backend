@@ -16,12 +16,20 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         this.verificationTokenRepository = verificationTokenRepository;
     }
 
-    public void saveConfirmationToken(VerificationToken token) {
-        verificationTokenRepository.save(token);
-    }
 
     public Optional<VerificationToken> getToken(String token) {
         return verificationTokenRepository.findByToken(token);
+    }
+
+    @Override
+    public VerificationToken addVerificationToken(VerificationToken verificationToken) {
+        verificationTokenRepository.save(verificationToken);
+        return verificationToken;
+    }
+
+    @Override
+    public void deleteVerificationToken(String token) {
+        verificationTokenRepository.delete(verificationTokenRepository.findByToken(token).get());
     }
 
 //    public int setConfirmedAt(String token) {

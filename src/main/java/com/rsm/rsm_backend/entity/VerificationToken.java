@@ -38,7 +38,7 @@ public class VerificationToken {
     @Basic(optional = false)
     private LocalDateTime expireAt;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id")
     private Client client;
 
