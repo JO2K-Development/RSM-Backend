@@ -9,8 +9,7 @@ import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.sql.Date;
 
 @Data
 @AllArgsConstructor
@@ -27,22 +26,23 @@ public class VerificationToken {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @Column(unique = true)
+    @Column(name = "token", unique = true)
     private String token;
 
     @CreationTimestamp
-    @Column(updatable = false)
-    private Timestamp timestamp;
+    @Column(name = "creation_time", updatable = false)
+    private Date creationTime;
 
-    @Column(updatable = false)
+    @Column(name = "expiration_time", updatable = false)
     @Basic(optional = false)
-    private LocalDateTime expireAt;
+    private Date expirationTime;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "client_id")
-    private Client client;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "request_id")
+    private Request request;
 
     @Transient
+    @Column(name = "is_expired")
     private boolean isExpired;
 
 }

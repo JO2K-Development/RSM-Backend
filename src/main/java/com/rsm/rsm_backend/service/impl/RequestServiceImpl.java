@@ -1,7 +1,9 @@
 package com.rsm.rsm_backend.service.impl;
 
 import com.rsm.rsm_backend.entity.Request;
+import com.rsm.rsm_backend.repository.ClientRepository;
 import com.rsm.rsm_backend.repository.RequestRepository;
+import com.rsm.rsm_backend.repository.VerificationTokenRepository;
 import com.rsm.rsm_backend.service.RequestService;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,8 @@ public class RequestServiceImpl implements RequestService {
     public Optional<Request> getRequestById(String id) {
         return requestRepository.findById(id);
     }
+
+
 
     @Override
     public Request addRequest(Request request) {

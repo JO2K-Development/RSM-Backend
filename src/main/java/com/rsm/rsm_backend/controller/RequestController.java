@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,6 +32,7 @@ public class RequestController {
     private final ProviderService providerService;
     private final EmailService emailService;
     private final VerificationTokenService verificationTokenService;
+    private final EmailValidator emailValidator;
 
 
     public RequestController(RequestService requestService, ProviderService providerService, EmailService emailService, VerificationTokenService verificationTokenService, EmailValidator emailValidator) {
@@ -59,9 +61,13 @@ public class RequestController {
     @GetMapping(value = "/confirm")
     ResponseEntity<Request> confirm(@RequestParam("token") String token) {
         Optional<VerificationToken> verificationToken = verificationTokenService.getToken(token);
-        if(verificationToken.isPresent()){
-            String id = verificationToken.get().getClient().getId();
-            //requestService.
+        if (verificationToken.isPresent()) {
+            if(verificationToken.get().isExpired())
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+            Request request = verificationToken.get().getRequest();
+            request.setRequestStatus(RequestStatus.WAITING_FOR_A_MECHANIC_ASSIGNMENT);
+            requestService.updateRequest(request.getId(), request);
             System.out.println("VERIFY");
         }
         return new ResponseEntity<>(null, HttpStatus.OK);
@@ -102,33 +108,29 @@ public class RequestController {
         return new ResponseEntity<>(requestService.updateRequest(id, request.get()), HttpStatus.OK);
     }
 
-    private final EmailValidator emailValidator;
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    Request addRequest(@RequestBody Request request) {
+    ResponseEntity<Request> addRequest(@RequestBody Request request) {
         request.setRequestStatus(RequestStatus.WAITING_FOR_AN_EMAIL_VERIFICATION);
         boolean isValidEmail = emailValidator.test(request.getCreator().getEmail());
-        if (isValidEmail) {
-            Random random = new Random();
-            VerificationToken verificationToken = VerificationToken.
-                    builder().
-                    token(String.valueOf(random.nextLong())+ random.nextLong()).
-                    client(request.getCreator()).
-                    timestamp(Timestamp.valueOf(LocalDateTime.now())).
-                    expireAt(LocalDateTime.now()).
-                    build();
+        if (!isValidEmail)
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
-            verificationTokenService.addVerificationToken(verificationToken);
+        Random random = new Random();
+        int EXPIRATION_TIME = 1000 * 60 * 15;
+        VerificationToken verificationToken = VerificationToken.
+                builder().
+                token(String.valueOf(random.nextLong()) + random.nextLong()).
+                request(request).
+                creationTime(new Date(System.currentTimeMillis())).
+                expirationTime(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).
+                build();
 
-            //Since, we are running the spring boot application in localhost, we are hardcoding the
-            //url of the server. We are creating a POST request with token param
-            String link = "http://localhost:8080/api/v1/request/confirm?token=" + verificationToken.getToken();
-            emailService.sendEmail(request.getCreator().getEmail(), buildEmail(request.getCreator().getFirstName(), link));
-            //return tokenForNewUser;
-//        } else {
-//            throw new IllegalStateException(String.format("Email %s, not valid", request.getEmail()));
-//        }
-        }
-        return requestService.addRequest(request);
+        verificationTokenService.addVerificationToken(verificationToken);
+
+        String link = "http://localhost:8080/api/v1/request/confirm?token=" + verificationToken.getToken();
+        emailService.sendEmail(request.getCreator().getEmail(), buildEmail(request.getCreator().getFirstName(), link));
+        return new ResponseEntity<>(requestService.addRequest(request), HttpStatus.OK);
+
     }
 
     @DeleteMapping(value = "/{id}")

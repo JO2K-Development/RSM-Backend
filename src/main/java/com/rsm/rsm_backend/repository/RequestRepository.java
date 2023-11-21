@@ -11,4 +11,5 @@ import java.util.List;
 public interface RequestRepository extends JpaRepository<Request, String> {
 
     List<Request> findByProvider(Provider provider);
+
 }
