@@ -68,7 +68,10 @@ public class RequestController {
             Request request = verificationToken.get().getRequest();
             request.setRequestStatus(RequestStatus.WAITING_FOR_A_MECHANIC_ASSIGNMENT);
             requestService.updateRequest(request.getId(), request);
-            System.out.println("VERIFY");
+
+            Optional<Request> requestOptional = requestService.getRequestById(request.getId());
+            requestOptional.ifPresent(value -> value.setCreationDate(new Date(System.currentTimeMillis())));
+
         }
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
@@ -114,6 +117,7 @@ public class RequestController {
         boolean isValidEmail = emailValidator.test(request.getCreator().getEmail());
         if (!isValidEmail)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
 
         Random random = new Random();
         int EXPIRATION_TIME = 1000 * 60 * 15;
