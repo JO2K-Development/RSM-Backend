@@ -27,10 +27,7 @@ public class ProviderController {
     @GetMapping(value = "/{id}")
     ResponseEntity<Provider> getProviderById(@PathVariable String id) {
         Optional<Provider> provider = providerService.getProviderById(id);
-        if (provider.isEmpty())
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
-        return new ResponseEntity<>(provider.get(), HttpStatus.OK);
+        return provider.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @GetMapping()

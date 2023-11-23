@@ -25,9 +25,8 @@ public class ClientController {
     @GetMapping(value = "/{id}")
     ResponseEntity<Client> getClientById(@PathVariable String id) {
         Optional<Client> client = clientService.getClientById(id);
-        if (client.isEmpty()) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return client.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
 
-        return new ResponseEntity<>(client.get(), HttpStatus.OK);
     }
 
     @GetMapping()

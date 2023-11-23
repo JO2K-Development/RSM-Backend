@@ -47,10 +47,8 @@ public class RequestController {
     ResponseEntity<Request> getRequestById(@PathVariable String id) {
 
         Optional<Request> request = requestService.getRequestById(id);
-        if (request.isEmpty())
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return request.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
 
-        return new ResponseEntity<>(request.get(), HttpStatus.OK);
     }
 
     @GetMapping()
@@ -62,7 +60,7 @@ public class RequestController {
     ResponseEntity<Request> confirm(@RequestParam("token") String token) {
         Optional<VerificationToken> verificationToken = verificationTokenService.getToken(token);
         if (verificationToken.isPresent()) {
-            if(verificationToken.get().isExpired())
+            if (verificationToken.get().isExpired())
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
             Request request = verificationToken.get().getRequest();
@@ -114,10 +112,10 @@ public class RequestController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Request> addRequest(@RequestBody Request request) {
         request.setRequestStatus(RequestStatus.WAITING_FOR_AN_EMAIL_VERIFICATION);
+
         boolean isValidEmail = emailValidator.test(request.getCreator().getEmail());
         if (!isValidEmail)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
 
         Random random = new Random();
         int EXPIRATION_TIME = 1000 * 60 * 15;
@@ -131,10 +129,10 @@ public class RequestController {
 
         verificationTokenService.addVerificationToken(verificationToken);
 
+        //TODO local host has to be changed
         String link = "http://localhost:8080/api/v1/request/confirm?token=" + verificationToken.getToken();
         emailService.sendEmail(request.getCreator().getEmail(), buildEmail(request.getCreator().getFirstName(), link));
         return new ResponseEntity<>(requestService.addRequest(request), HttpStatus.OK);
-
     }
 
     @DeleteMapping(value = "/{id}")
