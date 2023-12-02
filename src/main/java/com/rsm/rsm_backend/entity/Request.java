@@ -36,8 +36,17 @@ public class Request {
     @Column(name = "car_model")
     private String carModel;
 
+    @Column(name = "car_year")
+    private Integer carYear;
+
     @Column(name = "creation_date")
     private Date creationDate;
+
+    @Column(name = "licence_plate_number")
+    private Date licencePlateNumber;
+
+    @Column(name = "repair_estimation")
+    private Integer repairEstimation;
 
     @Column(name = "is_verified")
     private Boolean isVerified;
