@@ -51,7 +51,7 @@ public class ProviderController {
         return new ResponseEntity<>(requestService.getRequestsByProviderEmail(email), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/not_assigned")
+    @GetMapping(value = "/notassigned")
     ResponseEntity<List<Request>> getAllRequestsNotAssigned() {
         return new ResponseEntity<>(requestService.getRequestsByProviderId(null), HttpStatus.OK);
     }
