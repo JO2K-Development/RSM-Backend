@@ -14,27 +14,15 @@ import java.util.Optional;
 public class ProviderServiceImpl implements ProviderService {
 
     private final ProviderRepository providerRepository;
-    private final RequestRepository requestRepository;
 
-    public ProviderServiceImpl(ProviderRepository providerRepository, RequestRepository requestRepository) {
+    public ProviderServiceImpl(ProviderRepository providerRepository) {
         this.providerRepository = providerRepository;
-        this.requestRepository = requestRepository;
     }
 
 
     @Override
     public List<Provider> getAllProviders() {
         return providerRepository.findAll();
-    }
-
-    @Override
-    public List<Request> getRequestsByProviderId(String id) {
-        Optional<Provider> provider = providerRepository.findById(id);
-
-        if(provider.isEmpty())
-            return null;
-
-        return requestRepository.findByProvider(providerRepository.findById(id).get());
     }
 
     @Override

@@ -8,7 +8,6 @@ import java.util.Optional;
 
 public interface ProviderService {
     List<Provider> getAllProviders();
-    List<Request> getRequestsByProviderId(String id);
     Optional<Provider> getProviderById(String id);
     Optional<Provider> getProviderByEmail(String email);
     Provider addProvider(Provider provider);

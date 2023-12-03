@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -19,9 +18,11 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 public class ProviderController {
     private final ProviderService providerService;
+    private final RequestService requestService;
 
-    public ProviderController(ProviderService providerService) {
+    public ProviderController(ProviderService providerService, RequestService requestService) {
         this.providerService = providerService;
+        this.requestService = requestService;
     }
 
     @GetMapping(value = "/{id}")
@@ -30,17 +31,29 @@ public class ProviderController {
         return provider.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping(value = "/getbyemail/{email}")
+    ResponseEntity<Provider> getProviderByEmail(@PathVariable String email) {
+        Optional<Provider> provider = providerService.getProviderByEmail(email);
+        return provider.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    }
+
+
     @GetMapping()
     ResponseEntity<List<Provider>> getAllProviders() {
         return new ResponseEntity<>(providerService.getAllProviders(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/assigned/{id}")
-    ResponseEntity<List<Request>> getAllRequestsOfProvider(@PathVariable String id) {
-        if (providerService.getProviderById(id).isEmpty())
+    @GetMapping(value = "/assigned/{email}")
+    ResponseEntity<List<Request>> getAllRequestsOfProvider(@PathVariable String email) {
+        if (providerService.getProviderByEmail(email).isEmpty())
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(providerService.getRequestsByProviderId(id), HttpStatus.OK);
+        return new ResponseEntity<>(requestService.getRequestsByProviderEmail(email), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/not_assigned")
+    ResponseEntity<List<Request>> getAllRequestsNotAssigned() {
+        return new ResponseEntity<>(requestService.getRequestsByProviderId(null), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

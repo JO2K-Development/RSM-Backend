@@ -1,9 +1,9 @@
 package com.rsm.rsm_backend.service.impl;
 
+import com.rsm.rsm_backend.entity.Provider;
 import com.rsm.rsm_backend.entity.Request;
-import com.rsm.rsm_backend.repository.ClientRepository;
+import com.rsm.rsm_backend.repository.ProviderRepository;
 import com.rsm.rsm_backend.repository.RequestRepository;
-import com.rsm.rsm_backend.repository.VerificationTokenRepository;
 import com.rsm.rsm_backend.service.RequestService;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +14,11 @@ import java.util.Optional;
 public class RequestServiceImpl implements RequestService {
 
     private final RequestRepository requestRepository;
+    private final ProviderRepository providerRepository;
 
-    public RequestServiceImpl(RequestRepository requestRepository) {
+    public RequestServiceImpl(RequestRepository requestRepository, ProviderRepository providerRepository) {
         this.requestRepository = requestRepository;
+        this.providerRepository = providerRepository;
     }
 
 
@@ -28,6 +30,26 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public Optional<Request> getRequestById(String id) {
         return requestRepository.findById(id);
+    }
+
+    @Override
+    public List<Request> getRequestsByProviderId(String id) {
+        Optional<Provider> provider = providerRepository.findById(id);
+
+        if(provider.isEmpty())
+            return null;
+
+        return requestRepository.findByProvider(providerRepository.findById(id).get());
+    }
+
+    @Override
+    public List<Request> getRequestsByProviderEmail(String email) {
+        Optional<Provider> provider = providerRepository.findByEmail(email);
+
+        if(provider.isEmpty())
+            return null;
+
+        return requestRepository.findByProvider(providerRepository.findById(email).get());
     }
 
 

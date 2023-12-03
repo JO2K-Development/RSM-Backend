@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -72,6 +73,11 @@ public class RequestController {
 
         }
         return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/assigned/{email}")
+    ResponseEntity<List<Request>> getAllAssignedRequestsByEmail(@PathVariable String email) {
+        return new ResponseEntity<>(requestService.getRequestsByProviderEmail(email), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

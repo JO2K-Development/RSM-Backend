@@ -9,6 +9,8 @@ public interface RequestService {
 
     List<Request> getAllRequests();
     Optional<Request> getRequestById(String id);
+    List<Request> getRequestsByProviderId(String email);
+    List<Request> getRequestsByProviderEmail(String email);
     Request addRequest(Request request);
     Request updateRequest(String id, Request request);
     void deleteRequest(String id);
