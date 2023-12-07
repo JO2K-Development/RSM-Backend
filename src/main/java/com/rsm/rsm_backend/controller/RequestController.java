@@ -26,7 +26,7 @@ import static com.rsm.rsm_backend.service.EmailService.buildEmail;
 
 @RestController
 @RequestMapping("/api/v1/request")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class RequestController {
 
     private final RequestService requestService;

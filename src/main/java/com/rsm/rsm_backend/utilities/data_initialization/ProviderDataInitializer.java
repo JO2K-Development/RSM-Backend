@@ -24,6 +24,8 @@ public class ProviderDataInitializer {
         RegisterRequestDTO registerRequestDTO = RegisterRequestDTO
                 .builder()
                 .email("provider@gmail.com")
+                .firstname("Marek")
+                .lastname("Marucha")
                 .password("password").build();
 
         authenticationService.register(registerRequestDTO);
