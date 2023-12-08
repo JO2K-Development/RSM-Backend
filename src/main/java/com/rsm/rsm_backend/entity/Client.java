@@ -26,7 +26,7 @@ public class Client {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "e_mail", unique = true)
+    @Column(name = "e_mail")
     private String email;
 
     @Column(name = "phone_number")

@@ -10,16 +10,16 @@ import java.util.List;
 
 @Configuration
 public class CorsConfiguration {
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-//        org.springframework.web.cors.CorsConfiguration configuration = new org.springframework.web.cors.CorsConfiguration();
-//        configuration.setAllowedOrigins(List.of("*"));
-//        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
-//        configuration.setAllowCredentials(true);
-//        configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
-//        configuration.setExposedHeaders(List.of("Authorization"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new org.springframework.web.cors.CorsConfiguration().applyPermitDefaultValues());
-        return source;
-    }
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+////        org.springframework.web.cors.CorsConfiguration configuration = new org.springframework.web.cors.CorsConfiguration();
+////        configuration.setAllowedOrigins(List.of("*"));
+////        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
+////        configuration.setAllowCredentials(true);
+////        configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+////        configuration.setExposedHeaders(List.of("Authorization"));
+////        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+////        source.registerCorsConfiguration("/**", new org.springframework.web.cors.CorsConfiguration().applyPermitDefaultValues());
+////        return source;
+//    }
 }

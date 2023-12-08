@@ -54,10 +54,8 @@ public class RequestServiceImpl implements RequestService {
     public List<Request> getRequestsByProviderEmail(String email) {
         Optional<Provider> provider = providerRepository.findByEmail(email);
 
-        if(provider.isEmpty())
-            return null;
+        return provider.map(requestRepository::findByProvider).orElse(null);
 
-        return requestRepository.findByProvider(providerRepository.findById(email).get());
     }
 
 
