@@ -26,7 +26,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponseDTO register(RegisterRequestDTO request) {
         var user = Provider.builder()
                 .firstName(request.getFirstname())
-                .lastName(request.getFirstname())
+                .lastName(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.ADMIN)
