@@ -53,7 +53,7 @@ public class ProviderController {
 
     @GetMapping(value = "/notassigned")
     ResponseEntity<List<Request>> getAllRequestsNotAssigned() {
-        return new ResponseEntity<>(requestService.getRequestsByProviderId(null), HttpStatus.OK);
+        return new ResponseEntity<>(requestService.getRequestWithoutProvider(), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

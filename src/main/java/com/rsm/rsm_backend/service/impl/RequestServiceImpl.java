@@ -32,6 +32,14 @@ public class RequestServiceImpl implements RequestService {
         return requestRepository.findById(id);
     }
 
+
+
+   @Override
+   public List<Request> getRequestWithoutProvider() {
+        return requestRepository.findByProvider(null);
+    }
+
+
     @Override
     public List<Request> getRequestsByProviderId(String id) {
         Optional<Provider> provider = providerRepository.findById(id);
