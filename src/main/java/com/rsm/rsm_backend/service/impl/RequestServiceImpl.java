@@ -55,10 +55,7 @@ public class RequestServiceImpl implements RequestService {
         Optional<Provider> provider = providerRepository.findByEmail(email);
 
         return provider.map(requestRepository::findByProvider).orElse(null);
-
     }
-
-
 
     @Override
     public Request addRequest(Request request) {

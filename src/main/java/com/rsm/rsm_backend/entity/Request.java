@@ -43,7 +43,7 @@ public class Request {
     private Date creationDate;
 
     @Column(name = "licence_plate_number")
-    private Date licencePlateNumber;
+    private String licencePlateNumber;
 
     @Column(name = "repair_estimation")
     private Integer repairEstimation;
