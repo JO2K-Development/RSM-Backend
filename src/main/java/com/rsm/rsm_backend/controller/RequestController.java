@@ -66,6 +66,7 @@ public class RequestController {
 
             Request request = verificationToken.get().getRequest();
             request.setRequestStatus(RequestStatus.WAITING_FOR_A_MECHANIC_ASSIGNMENT);
+            request.setIsVerified(true);
             requestService.updateRequest(request.getId(), request);
 
             Optional<Request> requestOptional = requestService.getRequestById(request.getId());
@@ -134,7 +135,7 @@ public class RequestController {
                 build();
 
         verificationTokenService.addVerificationToken(verificationToken);
-
+        request.setIsVerified(false);
         //TODO local host has to be changed
         String link = "http://localhost:8080/api/v1/request/confirm?token=" + verificationToken.getToken();
         emailService.sendEmail(request.getCreator().getEmail(), buildEmail(request.getCreator().getFirstName(), link));

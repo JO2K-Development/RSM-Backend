@@ -49,6 +49,7 @@ public class ProviderDataInitializer {
                 .creationDate(new java.sql.Date(System.currentTimeMillis()))
                 .creator(client1)
                 .message("Niedziela to dzień święty, a nie dzień na naprawę auta")
+                .isVerified(true)
                 .build();
 
         requestService.addRequest(request1);
@@ -67,6 +68,7 @@ public class ProviderDataInitializer {
                 .creationDate(new java.sql.Date(System.currentTimeMillis()))
                 .creator(client2)
                 .message("Coś stuka, puka i trzeszczy")
+                .isVerified(true)
                 .build();
 
         requestService.addRequest(request2);
@@ -85,6 +87,7 @@ public class ProviderDataInitializer {
                 .creationDate(new java.sql.Date(System.currentTimeMillis()))
                 .creator(client3)
                 .message("Rozjebał się")
+                .isVerified(true)
                 .build();
 
         requestService.addRequest(request3);
@@ -107,6 +110,7 @@ public class ProviderDataInitializer {
                 .creationDate(new java.sql.Date(System.currentTimeMillis()))
                 .creator(client4)
                 .message("Przegląd")
+                .isVerified(true)
                 .build();
 
         requestService.addRequest(request4);

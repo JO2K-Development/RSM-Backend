@@ -33,10 +33,11 @@ public class RequestServiceImpl implements RequestService {
     }
 
 
-
-   @Override
-   public List<Request> getRequestWithoutProvider() {
-        return requestRepository.findByProvider(null);
+    @Override
+    public List<Request> getVerifiedRequestWithoutProvider() {
+        List<Request> requestList = requestRepository.findByProvider(null);
+        requestList.removeIf(request -> !request.getIsVerified());
+        return requestList;
     }
 
 
@@ -44,8 +45,7 @@ public class RequestServiceImpl implements RequestService {
     public List<Request> getRequestsByProviderId(String id) {
         Optional<Provider> provider = providerRepository.findById(id);
 
-        if(provider.isEmpty())
-            return null;
+        if (provider.isEmpty()) return null;
 
         return requestRepository.findByProvider(providerRepository.findById(id).get());
     }
