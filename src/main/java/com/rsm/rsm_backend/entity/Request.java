@@ -49,6 +49,14 @@ public class Request {
     private Date creationDate = new Date(System.currentTimeMillis());
 
     @Builder.Default
+    @Column(name = "pickup_date")
+    private Date pickupDate = null;
+
+    @Builder.Default
+    @Column(name = "delivery_date")
+    private Date deliveryDate = null;
+
+    @Builder.Default
     @Column(name = "licence_plate_number")
     private String licencePlateNumber = "licence_plate_number";
 

@@ -30,7 +30,7 @@ public class Client {
 
     @Builder.Default
     @Column(name = "e_mail")
-    private String email = "email";
+    private String email = "email@gmial.com";
 
     @Builder.Default
     @Column(name = "phone_number")

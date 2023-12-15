@@ -48,7 +48,7 @@ public class Provider implements UserDetails {
 
     @Builder.Default
     @Column(name = "e_mail", unique = true)
-    private String email = "email";
+    private String email = "email@gmail.com";
 
     @Builder.Default
     @Column(name = "phone_number")
