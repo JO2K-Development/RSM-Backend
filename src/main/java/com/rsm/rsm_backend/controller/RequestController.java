@@ -1,5 +1,6 @@
 package com.rsm.rsm_backend.controller;
 
+import com.rsm.rsm_backend.DTO.RequestStatusDTO;
 import com.rsm.rsm_backend.entity.Provider;
 import com.rsm.rsm_backend.entity.Request;
 import com.rsm.rsm_backend.entity.RequestStatus;
@@ -89,6 +90,21 @@ public class RequestController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(requestService.updateRequest(id, updatedRequest), HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/update-status/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Request> updateStatusRequest(@PathVariable String id, @RequestBody RequestStatusDTO requestStatusDTO) {
+
+        Optional<Request> existingRequest = requestService.getRequestById(id);
+        if (existingRequest.isEmpty())
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        Request existingRequestValue = existingRequest.get();
+
+        existingRequestValue.setRequestStatus(requestStatusDTO.requestStatus());
+        existingRequestValue.setPickupDate(requestStatusDTO.pickupDate());
+        existingRequestValue.setDeliveryDate(requestStatusDTO.deliveryDate());
+
+        return new ResponseEntity<>(requestService.updateRequest(id, existingRequestValue), HttpStatus.OK);
     }
 
     @PutMapping(value = "/pair/{request_id}")

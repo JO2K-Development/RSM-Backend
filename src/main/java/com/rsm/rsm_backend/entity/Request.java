@@ -42,7 +42,7 @@ public class Request {
 
     @Builder.Default
     @Column(name = "car_year")
-    private String carYear = "car_year";
+    private Integer carYear = 1900;
 
     @Builder.Default
     @Column(name = "creation_date")
