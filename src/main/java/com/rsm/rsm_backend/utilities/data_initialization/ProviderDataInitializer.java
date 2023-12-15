@@ -45,12 +45,13 @@ public class ProviderDataInitializer {
                 .builder()
                 .carMake("BMW")
                 .carModel("E46")
-                .carYear(2001)
+                .carYear("2001")
                 .creationDate(new java.sql.Date(System.currentTimeMillis()))
                 .creator(client1)
                 .message("Niedziela to dzień święty, a nie dzień na naprawę auta")
                 .isVerified(true)
                 .build();
+
 
         requestService.addRequest(request1);
 
@@ -64,7 +65,7 @@ public class ProviderDataInitializer {
                 .builder()
                 .carMake("Audi")
                 .carModel("TT")
-                .carYear(2004)
+                .carYear("2004")
                 .creationDate(new java.sql.Date(System.currentTimeMillis()))
                 .creator(client2)
                 .message("Coś stuka, puka i trzeszczy")
@@ -83,7 +84,7 @@ public class ProviderDataInitializer {
                 .builder()
                 .carMake("Mercedes")
                 .carModel("A 45")
-                .carYear(2022)
+                .carYear("2022")
                 .creationDate(new java.sql.Date(System.currentTimeMillis()))
                 .creator(client3)
                 .message("Rozjebał się")
@@ -106,7 +107,7 @@ public class ProviderDataInitializer {
                 .builder()
                 .carMake("Fiat")
                 .carModel("500")
-                .carYear(2056)
+                .carYear("2056")
                 .creationDate(new java.sql.Date(System.currentTimeMillis()))
                 .creator(client4)
                 .message("Przegląd")

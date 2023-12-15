@@ -26,29 +26,37 @@ public class Provider implements UserDetails {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
+    @Builder.Default
     @Column(name = "first_name")
-    private String firstName;
+    private String firstName = "first_name";
 
+    @Builder.Default
     @Column(name = "last_name")
-    private String lastName;
+    private String lastName = "last_name";
 
+    @Builder.Default
     @Column(name = "address")
-    private String address;
+    private String address = "address";
 
+    @Builder.Default
     @Column(name = "login")
-    private String login;
+    private String login = "login";
 
+    @Builder.Default
     @Column(name = "password")
-    private String password;
+    private String password = "password";
 
+    @Builder.Default
     @Column(name = "e_mail", unique = true)
-    private String email;
+    private String email = "email";
 
+    @Builder.Default
     @Column(name = "phone_number")
-    private String phoneNumber;
+    private String phoneNumber = "phone_number";
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.ADMIN;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

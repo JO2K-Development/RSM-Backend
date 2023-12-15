@@ -20,17 +20,21 @@ public class Client {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
+    @Builder.Default
     @Column(name = "first_name")
-    private String firstName;
+    private String firstName = "first_name";
 
+    @Builder.Default
     @Column(name = "last_name")
-    private String lastName;
+    private String lastName = "last_name";
 
+    @Builder.Default
     @Column(name = "e_mail")
-    private String email;
+    private String email = "email";
 
+    @Builder.Default
     @Column(name = "phone_number")
-    private String phoneNumber;
+    private String phoneNumber = "phone_number";
 
 
 
