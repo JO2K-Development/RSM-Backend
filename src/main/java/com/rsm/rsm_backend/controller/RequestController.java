@@ -100,6 +100,7 @@ public class RequestController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         Request existingRequestValue = existingRequest.get();
 
+        existingRequestValue.setDiagnosis(requestStatusDTO.diagnosis());
         existingRequestValue.setRequestStatus(requestStatusDTO.requestStatus());
         existingRequestValue.setPickupDate(requestStatusDTO.pickupDate());
         existingRequestValue.setDeliveryDate(requestStatusDTO.deliveryDate());

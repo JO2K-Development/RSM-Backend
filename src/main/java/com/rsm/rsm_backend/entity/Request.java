@@ -53,6 +53,10 @@ public class Request {
     private Date pickupDate = null;
 
     @Builder.Default
+    @Column(name = "diagnosis")
+    private String diagnosis = "";
+
+    @Builder.Default
     @Column(name = "delivery_date")
     private Date deliveryDate = null;
 
