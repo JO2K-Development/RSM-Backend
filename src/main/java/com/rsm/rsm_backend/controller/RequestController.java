@@ -116,6 +116,7 @@ public class RequestController {
         existingRequestValue.setRequestStatus(requestStatusDTO.requestStatus());
         existingRequestValue.setPickupDate(requestStatusDTO.pickupDate());
         existingRequestValue.setDeliveryDate(requestStatusDTO.deliveryDate());
+        existingRequestValue.setDiagnosis(requestStatusDTO.diagnosis());
 
         return new ResponseEntity<>(requestService.updateRequest(id, existingRequestValue), HttpStatus.OK);
     }
