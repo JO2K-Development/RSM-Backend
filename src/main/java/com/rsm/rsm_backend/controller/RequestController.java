@@ -10,15 +10,13 @@ import com.rsm.rsm_backend.service.ProviderService;
 import com.rsm.rsm_backend.service.RequestService;
 import com.rsm.rsm_backend.service.VerificationTokenService;
 import com.rsm.rsm_backend.utilities.email.EmailValidator;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -35,14 +33,16 @@ public class RequestController {
     private final EmailService emailService;
     private final VerificationTokenService verificationTokenService;
     private final EmailValidator emailValidator;
+    private final ModelMapper modelMapper;
 
 
-    public RequestController(RequestService requestService, ProviderService providerService, EmailService emailService, VerificationTokenService verificationTokenService, EmailValidator emailValidator) {
+    public RequestController(RequestService requestService, ProviderService providerService, EmailService emailService, VerificationTokenService verificationTokenService, EmailValidator emailValidator, ModelMapper modelMapper) {
         this.requestService = requestService;
         this.providerService = providerService;
         this.emailService = emailService;
         this.verificationTokenService = verificationTokenService;
         this.emailValidator = emailValidator;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping(value = "/{id}")
@@ -78,8 +78,16 @@ public class RequestController {
     }
 
     @GetMapping(value = "/assigned/{email}")
-    ResponseEntity<List<Request>> getAllAssignedRequestsByEmail(@PathVariable String email) {
+    ResponseEntity<List<Request>> getAllRequestsOfProvider(@PathVariable String email) {
+        if (providerService.getProviderByEmail(email).isEmpty())
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
         return new ResponseEntity<>(requestService.getRequestsByProviderEmail(email), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/notassigned")
+    ResponseEntity<List<Request>> getAllRequestsNotAssigned() {
+        return new ResponseEntity<>(requestService.getVerifiedOrDoneRequestsWithoutProvider(), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -100,7 +108,11 @@ public class RequestController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         Request existingRequestValue = existingRequest.get();
 
-        existingRequestValue.setDiagnosis(requestStatusDTO.diagnosis());
+//        existingRequestValue = modelMapper.map(requestStatusDTO, Request.class);
+//        System.out.println(existingRequestValue.getRequestStatus());
+//        System.out.println(existingRequestValue.getPickupDate());
+//        System.out.println(existingRequestValue.getDeliveryDate());
+
         existingRequestValue.setRequestStatus(requestStatusDTO.requestStatus());
         existingRequestValue.setPickupDate(requestStatusDTO.pickupDate());
         existingRequestValue.setDeliveryDate(requestStatusDTO.deliveryDate());
@@ -117,6 +129,7 @@ public class RequestController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         request.get().setProvider(provider.get());
+        request.get().setRequestStatus(RequestStatus.WAITING_FOR_DATE_ASSIGNMENT);
 
         return new ResponseEntity<>(requestService.updateRequest(request_id, request.get()), HttpStatus.OK);
     }
@@ -129,6 +142,7 @@ public class RequestController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         request.get().setProvider(null);
+        request.get().setRequestStatus(RequestStatus.WAITING_FOR_A_MECHANIC_ASSIGNMENT);
 
         return new ResponseEntity<>(requestService.updateRequest(id, request.get()), HttpStatus.OK);
     }

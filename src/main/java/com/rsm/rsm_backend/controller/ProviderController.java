@@ -43,19 +43,6 @@ public class ProviderController {
         return new ResponseEntity<>(providerService.getAllProviders(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/assigned/{email}")
-    ResponseEntity<List<Request>> getAllRequestsOfProvider(@PathVariable String email) {
-        if (providerService.getProviderByEmail(email).isEmpty())
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
-        return new ResponseEntity<>(requestService.getRequestsByProviderEmail(email), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/notassigned")
-    ResponseEntity<List<Request>> getAllRequestsNotAssigned() {
-        return new ResponseEntity<>(requestService.getVerifiedRequestWithoutProvider(), HttpStatus.OK);
-    }
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Provider> addProvider(@RequestBody Provider provider) {
         return new ResponseEntity<>(providerService.addProvider(provider), HttpStatus.OK);

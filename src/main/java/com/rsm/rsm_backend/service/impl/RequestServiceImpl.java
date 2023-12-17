@@ -2,6 +2,7 @@ package com.rsm.rsm_backend.service.impl;
 
 import com.rsm.rsm_backend.entity.Provider;
 import com.rsm.rsm_backend.entity.Request;
+import com.rsm.rsm_backend.entity.RequestStatus;
 import com.rsm.rsm_backend.repository.ProviderRepository;
 import com.rsm.rsm_backend.repository.RequestRepository;
 import com.rsm.rsm_backend.service.RequestService;
@@ -34,9 +35,10 @@ public class RequestServiceImpl implements RequestService {
 
 
     @Override
-    public List<Request> getVerifiedRequestWithoutProvider() {
+    public List<Request> getVerifiedOrDoneRequestsWithoutProvider() {
         List<Request> requestList = requestRepository.findByProvider(null);
         requestList.removeIf(request -> !request.getIsVerified());
+        requestList.removeIf(request -> request.getRequestStatus().equals(RequestStatus.DONE));
         return requestList;
     }
 
