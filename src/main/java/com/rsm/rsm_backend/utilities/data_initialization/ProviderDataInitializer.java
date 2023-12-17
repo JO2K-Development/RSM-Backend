@@ -4,6 +4,7 @@ import com.rsm.rsm_backend.authenticationDTO.RegisterRequestDTO;
 import com.rsm.rsm_backend.entity.Client;
 import com.rsm.rsm_backend.entity.Provider;
 import com.rsm.rsm_backend.entity.Request;
+import com.rsm.rsm_backend.entity.RequestStatus;
 import com.rsm.rsm_backend.service.AuthenticationService;
 import com.rsm.rsm_backend.service.ProviderService;
 import com.rsm.rsm_backend.service.RequestService;
@@ -48,6 +49,7 @@ public class ProviderDataInitializer {
                 .carYear(2001)
                 .creator(client1)
                 .message("Niedziela to dzień święty, a nie dzień na naprawę auta")
+                .requestStatus(RequestStatus.WAITING_FOR_A_MECHANIC_ASSIGNMENT)
                 .isVerified(true)
                 .build();
 
@@ -67,6 +69,7 @@ public class ProviderDataInitializer {
                 .carYear(2004)
                 .creator(client2)
                 .message("Coś stuka, puka i trzeszczy")
+                .requestStatus(RequestStatus.WAITING_FOR_A_MECHANIC_ASSIGNMENT)
                 .isVerified(true)
                 .build();
 
@@ -85,6 +88,7 @@ public class ProviderDataInitializer {
                 .carYear(2022)
                 .creator(client3)
                 .message("Rozjebał się")
+                .requestStatus(RequestStatus.WAITING_FOR_A_MECHANIC_ASSIGNMENT)
                 .isVerified(true)
                 .build();
 
@@ -107,6 +111,7 @@ public class ProviderDataInitializer {
                 .carYear(2056)
                 .creator(client4)
                 .message("Przegląd")
+                .requestStatus(RequestStatus.WAITING_FOR_A_MECHANIC_ASSIGNMENT)
                 .isVerified(true)
                 .build();
 

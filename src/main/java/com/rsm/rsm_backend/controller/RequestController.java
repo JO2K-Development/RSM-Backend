@@ -78,8 +78,16 @@ public class RequestController {
     }
 
     @GetMapping(value = "/assigned/{email}")
-    ResponseEntity<List<Request>> getAllAssignedRequestsByEmail(@PathVariable String email) {
+    ResponseEntity<List<Request>> getAllRequestsOfProvider(@PathVariable String email) {
+        if (providerService.getProviderByEmail(email).isEmpty())
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
         return new ResponseEntity<>(requestService.getRequestsByProviderEmail(email), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/notassigned")
+    ResponseEntity<List<Request>> getAllRequestsNotAssigned() {
+        return new ResponseEntity<>(requestService.getVerifiedOrDoneRequestsWithoutProvider(), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
