@@ -18,11 +18,9 @@ import java.util.Optional;
 @CrossOrigin
 public class ProviderController {
     private final ProviderService providerService;
-    private final RequestService requestService;
 
-    public ProviderController(ProviderService providerService, RequestService requestService) {
+    public ProviderController(ProviderService providerService) {
         this.providerService = providerService;
-        this.requestService = requestService;
     }
 
     @GetMapping(value = "/{id}")
