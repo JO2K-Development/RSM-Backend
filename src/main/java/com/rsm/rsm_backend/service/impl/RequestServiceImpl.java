@@ -55,8 +55,14 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public List<Request> getRequestsByProviderEmail(String email) {
         Optional<Provider> provider = providerRepository.findByEmail(email);
+        if (provider.isEmpty())
+            return null;
 
-        return provider.map(requestRepository::findByProvider).orElse(null);
+        List<Request> requestList = requestRepository.findByProvider(provider.get());
+        requestList.removeIf(request -> request.getRequestStatus().equals(RequestStatus.DONE));
+
+        return requestList;
+        //return provider.map(requestRepository::findByProvider).orElse(null);
     }
 
     @Override

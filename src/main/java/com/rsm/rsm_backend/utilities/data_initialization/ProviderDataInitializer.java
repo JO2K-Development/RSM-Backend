@@ -69,7 +69,7 @@ public class ProviderDataInitializer {
                 .carYear(2004)
                 .creator(client2)
                 .message("Coś stuka, puka i trzeszczy")
-                .requestStatus(RequestStatus.WAITING_FOR_A_MECHANIC_ASSIGNMENT)
+                .requestStatus(RequestStatus.WAITING_FOR_DATE_ASSIGNMENT)
                 .isVerified(true)
                 .build();
 
@@ -111,7 +111,7 @@ public class ProviderDataInitializer {
                 .carYear(2056)
                 .creator(client4)
                 .message("Przegląd")
-                .requestStatus(RequestStatus.WAITING_FOR_A_MECHANIC_ASSIGNMENT)
+                .requestStatus(RequestStatus.WAITING_FOR_DATE_ASSIGNMENT)
                 .isVerified(true)
                 .build();
 
