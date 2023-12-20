@@ -1,18 +1,16 @@
 package com.rsm.rsm_backend.DTO.authenticationDTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+
+
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class RegisterRequestDTO {
+public record RegisterRequestDTO(
+        String firstname,
+        String lastname,
+        String email,
+        String password,
+        String phoneNumber) {
 
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String password;
+
 }

@@ -52,6 +52,8 @@ public class ProviderController {
         if (existingProvider.isEmpty())
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
+        updatedProvider.setPassword(existingProvider.get().getPassword());
+
         return new ResponseEntity<>(providerService.updateProvider(id, updatedProvider), HttpStatus.OK);
     }
 

@@ -25,12 +25,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     public AuthenticationResponseDTO register(RegisterRequestDTO request) {
         var user = Provider.builder()
-                .firstName(request.getFirstname())
-                .lastName(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .firstName(request.firstname())
+                .lastName(request.lastname())
+                .phoneNumber(request.phoneNumber())
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
                 .role(Role.ADMIN)
                 .build();
+
         providerService.addProvider(user);
         var jwtToken = jwtServiceImpl.generateToken(user);
 
@@ -43,12 +45,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponseDTO authenticate(AuthenticationRequestDTO request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
+                        request.email(),
+                        request.password()
                 )
         );
 
-        var user = providerService.getProviderByEmail(request.getEmail())
+        var user = providerService.getProviderByEmail(request.email())
                 .orElseThrow();
 
         var jwtToken = jwtServiceImpl.generateToken(user);

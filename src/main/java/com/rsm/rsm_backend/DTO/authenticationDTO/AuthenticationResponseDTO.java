@@ -5,10 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class AuthenticationResponseDTO {
-    private String token;
+public record AuthenticationResponseDTO(
+        String token) {
 }
