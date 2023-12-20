@@ -1,8 +1,8 @@
 package com.rsm.rsm_backend.controller;
 
-import com.rsm.rsm_backend.authenticationDTO.AuthenticationRequestDTO;
-import com.rsm.rsm_backend.authenticationDTO.AuthenticationResponseDTO;
-import com.rsm.rsm_backend.authenticationDTO.RegisterRequestDTO;
+import com.rsm.rsm_backend.DTO.authenticationDTO.AuthenticationRequestDTO;
+import com.rsm.rsm_backend.DTO.authenticationDTO.AuthenticationResponseDTO;
+import com.rsm.rsm_backend.DTO.authenticationDTO.RegisterRequestDTO;
 import com.rsm.rsm_backend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

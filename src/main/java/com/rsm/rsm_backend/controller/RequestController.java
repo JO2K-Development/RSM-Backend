@@ -47,10 +47,9 @@ public class RequestController {
 
     @GetMapping(value = "/{id}")
     ResponseEntity<Request> getRequestById(@PathVariable String id) {
-
         Optional<Request> request = requestService.getRequestById(id);
-        return request.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
 
+        return request.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @GetMapping()
@@ -106,17 +105,17 @@ public class RequestController {
         Optional<Request> existingRequest = requestService.getRequestById(id);
         if (existingRequest.isEmpty())
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        Request existingRequestValue = existingRequest.get();
+        Request existingRequestValue;
 
-//        existingRequestValue = modelMapper.map(requestStatusDTO, Request.class);
-//        System.out.println(existingRequestValue.getRequestStatus());
-//        System.out.println(existingRequestValue.getPickupDate());
-//        System.out.println(existingRequestValue.getDeliveryDate());
+        existingRequestValue = modelMapper.map(requestStatusDTO, Request.class);
+        System.out.println(existingRequestValue.getRequestStatus());
+        System.out.println(existingRequestValue.getPickupDate());
+        System.out.println(existingRequestValue.getDeliveryDate());
 
-        existingRequestValue.setRequestStatus(requestStatusDTO.requestStatus());
-        existingRequestValue.setPickupDate(requestStatusDTO.pickupDate());
-        existingRequestValue.setDeliveryDate(requestStatusDTO.deliveryDate());
-        existingRequestValue.setDiagnosis(requestStatusDTO.diagnosis());
+//        existingRequestValue.setRequestStatus(requestStatusDTO.requestStatus());
+//        existingRequestValue.setPickupDate(requestStatusDTO.pickupDate());
+//        existingRequestValue.setDeliveryDate(requestStatusDTO.deliveryDate());
+//        existingRequestValue.setDiagnosis(requestStatusDTO.diagnosis());
 
         return new ResponseEntity<>(requestService.updateRequest(id, existingRequestValue), HttpStatus.OK);
     }

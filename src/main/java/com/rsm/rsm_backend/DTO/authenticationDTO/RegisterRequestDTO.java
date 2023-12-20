@@ -1,4 +1,4 @@
-package com.rsm.rsm_backend.authenticationDTO;
+package com.rsm.rsm_backend.DTO.authenticationDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequestDTO {
+public class RegisterRequestDTO {
 
+    private String firstname;
+    private String lastname;
     private String email;
-    String password;
+    private String password;
 }

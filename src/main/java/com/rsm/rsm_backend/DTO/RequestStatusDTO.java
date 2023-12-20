@@ -6,7 +6,12 @@ import jakarta.persistence.Enumerated;
 
 import java.sql.Date;
 
-public record RequestStatusDTO(@Enumerated RequestStatus requestStatus, Date pickupDate, Date deliveryDate, String diagnosis){
+public record RequestStatusDTO(
+        @Enumerated
+        RequestStatus requestStatus,
+        Date pickupDate,
+        Date deliveryDate,
+        String diagnosis){
 
 }
 

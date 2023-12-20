@@ -1,6 +1,6 @@
 package com.rsm.rsm_backend.utilities.data_initialization;
 
-import com.rsm.rsm_backend.authenticationDTO.RegisterRequestDTO;
+import com.rsm.rsm_backend.DTO.authenticationDTO.RegisterRequestDTO;
 import com.rsm.rsm_backend.entity.Client;
 import com.rsm.rsm_backend.entity.Provider;
 import com.rsm.rsm_backend.entity.Request;
