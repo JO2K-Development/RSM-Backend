@@ -7,6 +7,7 @@ import com.rsm.rsm_backend.service.ProviderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +18,11 @@ import java.util.Optional;
 @CrossOrigin
 public class ProviderController {
     private final ProviderService providerService;
+    private final PasswordEncoder passwordEncoder;
 
-    public ProviderController(ProviderService providerService) {
+    public ProviderController(ProviderService providerService, PasswordEncoder passwordEncoder) {
         this.providerService = providerService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping(value = "/{id}")
@@ -42,6 +45,10 @@ public class ProviderController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Provider> addProvider(@RequestBody Provider provider) {
+        if (providerService.getProviderByEmail(provider.getEmail()).isPresent())
+            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+
+        provider.setPassword(passwordEncoder.encode(provider.getPassword()));
         return new ResponseEntity<>(providerService.addProvider(provider), HttpStatus.OK);
     }
 
