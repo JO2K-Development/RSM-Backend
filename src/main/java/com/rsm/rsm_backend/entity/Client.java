@@ -3,6 +3,7 @@ package com.rsm.rsm_backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 @Data
@@ -11,6 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Jacksonized
 @Builder
 @Entity
+@DynamicUpdate
 @Table(name = "client")
 public class Client {
 

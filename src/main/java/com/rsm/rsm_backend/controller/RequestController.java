@@ -107,7 +107,7 @@ public class RequestController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         Request existingRequestValue;
 
-        existingRequestValue = modelMapper.map(requestStatusDTO, Request.class);
+        modelMapper.map(requestStatusDTO, existingRequestValue = existingRequest.get());
         System.out.println(existingRequestValue.getRequestStatus());
         System.out.println(existingRequestValue.getPickupDate());
         System.out.println(existingRequestValue.getDeliveryDate());

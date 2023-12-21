@@ -3,6 +3,7 @@ package com.rsm.rsm_backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +18,7 @@ import java.util.List;
 @Jacksonized
 @Builder
 @Entity
+@DynamicUpdate
 @Table(name = "provider")
 public class Provider implements UserDetails {
 

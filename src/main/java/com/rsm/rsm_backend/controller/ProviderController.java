@@ -1,10 +1,9 @@
 package com.rsm.rsm_backend.controller;
 
 
+import com.rsm.rsm_backend.DTO.ProviderDTO;
 import com.rsm.rsm_backend.entity.Provider;
-import com.rsm.rsm_backend.entity.Request;
 import com.rsm.rsm_backend.service.ProviderService;
-import com.rsm.rsm_backend.service.RequestService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +54,26 @@ public class ProviderController {
         updatedProvider.setPassword(existingProvider.get().getPassword());
 
         return new ResponseEntity<>(providerService.updateProvider(id, updatedProvider), HttpStatus.OK);
+    }
+
+    @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Provider> patchProvider(@PathVariable String id, @RequestBody ProviderDTO updatedProvider) {
+        Optional<Provider> existingProvider = providerService.getProviderById(id);
+        if (existingProvider.isEmpty())
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+        Provider provider = existingProvider.get();
+        if (updatedProvider.firstName() != null)
+            provider.setFirstName(updatedProvider.firstName());
+        if (updatedProvider.lastName() != null)
+            provider.setLastName(updatedProvider.lastName());
+        if (updatedProvider.address() != null)
+            provider.setAddress(updatedProvider.address());
+        if (updatedProvider.phoneNumber() != null)
+            provider.setPhoneNumber(updatedProvider.phoneNumber());
+
+
+        return new ResponseEntity<>(providerService.updateProvider(id, provider), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

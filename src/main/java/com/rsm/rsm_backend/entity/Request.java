@@ -3,6 +3,7 @@ package com.rsm.rsm_backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.sql.Date;
@@ -14,6 +15,7 @@ import java.sql.Date;
 @Jacksonized
 @Builder
 @Entity
+@DynamicUpdate
 @Table(name = "request")
 public class Request {
 
